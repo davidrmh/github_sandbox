@@ -1,4 +1,4 @@
-name: Daily Docker Run and Commit
+name: Docker Run and Commit
 
 on:
   workflow_dispatch: # To manually trigger this workflow
