@@ -1,0 +1,43 @@
+name: Daily Docker Run and Commit
+
+on:
+  workflow_dispatch: # To manually trigger this workflow
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    permissions:
+      # For pushing to the repository after running the Docker container
+      contents: write
+
+    steps:
+    # Check out the repository code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Build the Docker image
+    - name: Build Docker Image
+      run: docker build -t ghactions -f ./src/docker/Dockerfile ./
+
+    # Run the Docker container
+    - name: Run Docker Container
+      run: |
+        mkdir -p ./src/output/
+        docker run --rm -v $(pwd)/src/output:/output ghactions
+
+    # Commit and Push the results back to the repository
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        
+        git add ./src/output
+        
+        # Only commit if there are actually changes
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update via workflow"
+          git push
+        fi
