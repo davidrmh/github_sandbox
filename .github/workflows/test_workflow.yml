@@ -14,17 +14,17 @@ jobs:
     steps:
     # Check out the repository code
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v2
 
     # Build the Docker image
     - name: Build Docker Image
-      run: docker build -t ghactions -f ./src/docker/Dockerfile ./
+      run: docker build -t ghactions:latest -f ./src/docker/Dockerfile ./
 
     # Run the Docker container
     - name: Run Docker Container
       run: |
         mkdir -p ./src/output/
-        docker run --rm -v $(pwd)/src/output:/output ghactions
+        docker run --rm -v $(pwd)/src/output:/output ghactions:latest
 
     # Commit and Push the results back to the repository
     - name: Commit and Push changes

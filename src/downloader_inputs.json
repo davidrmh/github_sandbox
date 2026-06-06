@@ -1,0 +1,9 @@
+{
+    "tickers":["MXN=X","EURMXN=X"],
+    
+    "params":{
+        "start":"2020-01-2",
+        "end": null 
+    }
+
+}
