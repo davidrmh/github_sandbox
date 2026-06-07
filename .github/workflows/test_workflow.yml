@@ -3,7 +3,7 @@ name: Docker Run and Commit
 on:  
   workflow_dispatch: # To manually trigger this workflow
   schedule:
-      - cron: '13 7 * * 1-5'
+      - cron: '13 7 * * *'
 
 jobs:
   build-and-run:
